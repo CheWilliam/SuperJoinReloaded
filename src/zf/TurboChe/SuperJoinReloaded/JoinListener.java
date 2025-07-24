@@ -153,12 +153,16 @@ public class JoinListener implements Listener {
         }
     }
 
-    // 构建标题命令字符串（替换变量）
+    // 构建标题命令字符串（替换变量并处理空格）
     private String buildTitleCommand(Player player, String title, String subtitle) {
+        // 将空格替换为下划线（匹配iu插件中的gsub("_", " ")）
+        String escapedTitle = title.replace(" ", "_");
+        String escapedSubtitle = subtitle.replace(" ", "_");
+
         return titleCommandFormat
                 .replace("{player}", player.getName())
-                .replace("{title}", title)
-                .replace("{subtitle}", subtitle);
+                .replace("{title}", escapedTitle)
+                .replace("{subtitle}", escapedSubtitle);
     }
 
     // 格式化命令中的消息（仅替换玩家名变量）
