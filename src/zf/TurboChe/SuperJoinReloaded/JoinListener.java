@@ -85,12 +85,21 @@ public class JoinListener implements Listener {
         ConfigurationSection vipConfig = plugin.getConfig().getConfigurationSection("viptitle");
         if (vipConfig == null) return;
 
-        // 获取玩家拥有的最高优先级VIP组
-        String highestGroup = getHighestVipGroup(player, vipConfig);
-        if (highestGroup == null) return;
+        // 获取所有配置的组别
+        for (String group : vipConfig.getKeys(false)) {
+            // 检查玩家是否有该组别的权限（权限节点格式为 "superjoin.组别名"）
+            String permission = "superjoin." + group;
+            if (player.hasPermission(permission)) {
+                // 找到玩家拥有的最高权限组别（按配置文件顺序）
+                sendVipWelcome(player, vipConfig, group);
+                break; // 找到第一个匹配的组别后退出循环
+            }
+        }
+    }
 
-        // 读取该VIP组的具体配置
-        ConfigurationSection groupConfig = vipConfig.getConfigurationSection(highestGroup);
+    // 发送指定 VIP 等级的欢迎消息
+    private void sendVipWelcome(Player player, ConfigurationSection vipConfig, String vipLevel) {
+        ConfigurationSection groupConfig = vipConfig.getConfigurationSection(vipLevel);
         if (groupConfig == null) return;
 
         // 格式化标题和副标题（替换变量）
@@ -104,37 +113,6 @@ public class JoinListener implements Listener {
         String sound = groupConfig.getString("sound");
         if (sound != null && !sound.isEmpty()) {
             playSound(player, sound);
-        }
-    }
-
-    // 获取玩家拥有的最高优先级VIP组
-    private String getHighestVipGroup(Player player, ConfigurationSection vipConfig) {
-        String highestGroup = null;
-        int maxPriority = -1;
-        // 遍历所有VIP组配置
-        for (String group : vipConfig.getKeys(false)) {
-            // 检查玩家是否有该VIP组的权限
-            if (player.hasPermission("superjoin.vip." + group)) {
-                // 提取组名中的优先级数字（如"vip2"提取2）
-                int priority = getGroupPriority(group);
-                // 更新最高优先级组
-                if (priority > maxPriority) {
-                    maxPriority = priority;
-                    highestGroup = group;
-                }
-            }
-        }
-        return highestGroup;
-    }
-
-    // 从VIP组名中提取优先级（如"vip3"返回3）
-    private int getGroupPriority(String group) {
-        try {
-            // 移除非数字字符后转换为整数
-            return Integer.parseInt(group.replaceAll("[^0-9]", ""));
-        } catch (NumberFormatException e) {
-            // 无法提取数字时默认优先级为0
-            return 0;
         }
     }
 

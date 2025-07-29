@@ -1,30 +1,55 @@
-# 主配置
-debug: true
+# SuperJoinReloaded 配置文件
+# 支持动态VIP组和自定义欢迎信息
+
+# 闪电特效设置
 lightning: true
 
-# 1.7.10 适配配置（移除 title-settings 部分）
-version-specific:
-  1_7_10:
-    use-command-title: true
-    title-command: "iu title {player} {title} {subtitle}"  # 你的命令格式
-    sound-mappings:
-      ENDERDRAGON_GROWL: "ENDERDRAGON_WINGS"
-      LEVEL_UP: "LEVEL_UP"
-
-# VIP 特效配置
-viptitle:
-  vip1:
-    title: "&6欢迎 &a{player}"
-    subtitle: "&7享受 VIP 特权"
-    sound: "ENDERDRAGON_GROWL"
-  vip2:
-    title: "&e尊贵 &a{player}"
-    subtitle: "&7您的特权更高"
-    sound: "FIREWORK_LAUNCH"
-
-# 普通欢迎消息
+# 普通玩家欢迎消息设置
 normalJoinMessage:
   enabled: true
   messages:
-    - "&e欢迎 {player} 加入服务器！"
-    - "&7请遵守规则"
+    - "&7欢迎 &a{player} &7加入服务器!"
+    - "&7请查看规则频道了解服务器规定"
+
+# VIP欢迎信息配置（支持任意组名）
+viptitle:
+  # 等级从高到低排列
+  admin:
+    title: "&c&l欢迎回来～ 「{player}」"
+    subtitle: "&c尊敬的管理员"
+    sound: FIREWORK_LAUNCH
+
+  vip3:
+    title: "&4欢迎 VIP3 玩家 {player}！"
+    subtitle: "顶级特权已激活"
+    sound: FIREWORK_BLAST
+
+  vip2:
+    title: "&6欢迎 VIP2 玩家 {player}！"
+    subtitle: "高级特权已激活"
+    sound: LEVEL_UP
+
+  vip1:
+    title: "&a欢迎 VIP1 玩家 {player}！"
+    subtitle: "基础特权已激活"
+    sound: NOTE_PLING
+
+  # 自定义组也按优先级排列
+  premium:  # 比 vip1 高，比 vip2 低
+    title: "&b欢迎尊贵会员 {player}！"
+    subtitle: "专属特权已激活"
+    sound: ANVIL_USE
+
+# 版本特定配置（主要用于兼容1.7.10）
+version-specific:
+  1_7_10:
+    # 是否使用命令发送标题（1.7.10需要使用命令）
+    use-command-title: true
+    # 标题命令格式（使用iu插件）
+    title-command: "iu title {player} {title} {subtitle}"
+    # 音效映射（将高版本音效名映射到1.7.10支持的音效）
+    sound-mappings:
+      ENDERDRAGON_GROWL: ENDERDRAGON_WINGS
+      FIREWORK_BLAST: FIREWORK_LAUNCH
+      LEVEL_UP: ORB_PICKUP
+      NOTE_PLING: NOTE_PLING

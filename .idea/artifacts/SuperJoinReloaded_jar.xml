@@ -1,0 +1,11 @@
+<component name="ArtifactManager">
+  <artifact name="SuperJoinReloaded:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/SuperJoinReloaded_jar</output-path>
+    <root id="root">
+      <element id="archive" name="SuperJoinReloaded.jar">
+        <element id="module-output" name="SuperJoinReloaded" />
+        <element id="dir-copy" path="$PROJECT_DIR$/src/resources" />
+      </element>
+    </root>
+  </artifact>
+</component>

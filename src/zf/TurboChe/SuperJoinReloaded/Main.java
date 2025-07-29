@@ -12,17 +12,16 @@ public class Main extends JavaPlugin {
     private boolean is1_7_10;
     private String serverVersion;
 
-    // 醒目提示前缀（带彩色和分隔符）
-    private static final String PREFIX = ChatColor.GOLD + "[" + ChatColor.RED + "SuperJoin" + ChatColor.GOLD + "] " + ChatColor.RESET;
+    private static final String PREFIX = ChatColor.GOLD + "[" + ChatColor.RED + "SuperJoin" + ChatColor.GOLD + "] ";
 
     @Override
     public void onEnable() {
         // 版本检测（适配 Crucible 核心）
         detectServerVersion();
-        getLogger().info(PREFIX + ChatColor.GREEN + "===== 插件加载中 =====");
-        getLogger().info(PREFIX + "检测到服务器核心: " + ChatColor.YELLOW + Bukkit.getServer().getClass().getPackage().getName());
-        getLogger().info(PREFIX + "检测到版本标识: " + ChatColor.YELLOW + serverVersion);
-        getLogger().info(PREFIX + "兼容模式: " + (is1_7_10 ? ChatColor.GREEN + "1.7.10 (Crucible)" : ChatColor.RED + "未知版本"));
+        Bukkit.getConsoleSender().sendMessage(PREFIX + ChatColor.GREEN + "===== 插件加载中 =====");
+        Bukkit.getConsoleSender().sendMessage(PREFIX + "检测到服务器核心: " + ChatColor.YELLOW + Bukkit.getServer().getClass().getPackage().getName());
+        Bukkit.getConsoleSender().sendMessage(PREFIX + "检测到版本标识: " + ChatColor.YELLOW + serverVersion);
+        Bukkit.getConsoleSender().sendMessage(PREFIX + "兼容模式: " + (is1_7_10 ? ChatColor.GREEN + "1.7.10 (Crucible)" : ChatColor.RED + "未知版本"));
 
         // 配置加载
         saveDefaultConfig();
@@ -40,16 +39,25 @@ public class Main extends JavaPlugin {
         // 注册事件
         getServer().getPluginManager().registerEvents(new JoinListener(this), this);
 
-        // 醒目加载提示
-        getLogger().info(PREFIX + ChatColor.GREEN + "===== 插件加载成功 =====");
-        getLogger().info(PREFIX + ChatColor.GREEN + "✅ 已优化 Crucible-1.7.10 兼容性");
-        getLogger().info(PREFIX + ChatColor.GREEN + "✅ 功能: 闪电效果 / VIP标题 / 欢迎消息 / 音效");
-        getLogger().info(PREFIX + ChatColor.YELLOW + "注意: 闪电特效可能与 ASJCore 冲突");
+        // 加载提示
+        Bukkit.getConsoleSender().sendMessage(PREFIX + ChatColor.RED + "-=[ SUPER JOIN ]=--=[ SUPER JOIN ]=--=[ SUPER JOIN ]=-");
+        Bukkit.getConsoleSender().sendMessage(PREFIX + ChatColor.RED + "|                                                     |");
+        Bukkit.getConsoleSender().sendMessage(PREFIX + ChatColor.RED + "|  +-+-+-+-+-+ +-+-+-+-+ +-+-+-+-+-+ +-+-+-+-+ +-+-+  |");
+        Bukkit.getConsoleSender().sendMessage(PREFIX + ChatColor.RED + "|  |S|U|P|E|R| |J|O|I|N| |S|U|P|E|R| |J|O|I|N| |!|!|  |");
+        Bukkit.getConsoleSender().sendMessage(PREFIX + ChatColor.RED + "|  +-+ ✅ 功能: 闪电效果 / VIP标题 / 欢迎消息 / 音效 +-+  |");
+        Bukkit.getConsoleSender().sendMessage(PREFIX + ChatColor.RED + "|                     已成功加载                        |");
+        Bukkit.getConsoleSender().sendMessage(PREFIX + ChatColor.RED + "-=[ SUPER JOIN ]=--=[ SUPER JOIN ]=--=[ SUPER JOIN ]=-");
     }
 
     @Override
     public void onDisable() {
-        getLogger().info(PREFIX + ChatColor.RED + "===== 插件已卸载 =====");
+        Bukkit.getConsoleSender().sendMessage(PREFIX + ChatColor.RED + "-=[ SUPER JOIN ]=--=[ SUPER JOIN ]=--=[ SUPER JOIN ]=-");
+        Bukkit.getConsoleSender().sendMessage(PREFIX + ChatColor.RED + "|                                                     |");
+        Bukkit.getConsoleSender().sendMessage(PREFIX + ChatColor.RED + "|  +-+-+-+-+-+        已成功卸载       +-+-+-+-+ +-+-+  |");
+        Bukkit.getConsoleSender().sendMessage(PREFIX + ChatColor.RED + "|  |S|U|P|E|R| |J|O|I|N| |S|U|P|E|R| |J|O|I|N| |!|!|  |");
+        Bukkit.getConsoleSender().sendMessage(PREFIX + ChatColor.RED + "|  +-+-+-+-+-+        已成功卸载       +-+-+-+-+ +-+-+  |");
+        Bukkit.getConsoleSender().sendMessage(PREFIX + ChatColor.RED + "|                                                     |");
+        Bukkit.getConsoleSender().sendMessage(PREFIX + ChatColor.RED + "-=[ SUPER JOIN ]=--=[ SUPER JOIN ]=--=[ SUPER JOIN ]=-");
     }
 
     // 版本检测（适配 Crucible 包名）
@@ -66,7 +74,7 @@ public class Main extends JavaPlugin {
         }
     }
 
-    // 配置验证（移除不必要的 title-settings 部分）
+    // 配置验证
     private void validateConfig() {
         if (!getConfig().contains("debug")) getConfig().set("debug", false);
         if (!getConfig().contains("lightning")) getConfig().set("lightning", true);
@@ -74,14 +82,14 @@ public class Main extends JavaPlugin {
         if (is1_7_10() && !getConfig().contains("version-specific.1_7_10")) {
             ConfigurationSection section = getConfig().createSection("version-specific.1_7_10");
             section.set("use-command-title", true);
-            section.set("title-command", "iu title {player} {title} {subtitle}"); // 保持你的命令格式
+            section.set("title-command", "iu title {player} {title} {subtitle}");
 
             ConfigurationSection sounds = section.createSection("sound-mappings");
             sounds.set("ENDERDRAGON_GROWL", "ENDERDRAGON_WINGS");
             sounds.set("LEVEL_UP", "LEVEL_UP");
 
             saveConfig();
-            getLogger().info(PREFIX + "已生成 Crucible 专用配置");
+            Bukkit.getConsoleSender().sendMessage(PREFIX + "已生成 Crucible 专用配置");
         }
     }
 

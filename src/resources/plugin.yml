@@ -1,8 +1,7 @@
 name: SuperJoinReloaded
-version: 1.0
+version: 0.1
 main: zf.TurboChe.SuperJoinReloaded.Main
 author: TurboChe
-api-version: 1.7  # 修改为1.7以匹配服务器版本
 description: |-
   带VIP特效的登录插件
   支持1.7.10闪电效果
@@ -37,21 +36,34 @@ permissions:
     children:
       superjoin.vip.1: true
       superjoin.vip.2: true
+      superjoin.vip.3: true
+      superjoin.vip.4: true
 
   superjoin.vip.1:
-    description: VIP等级1特权
+    description: VIP1
     default: false
 
   superjoin.vip.2:
-    description: VIP等级2特权
+    description: VIP2
+    default: false
+
+  superjoin.vip.3:
+    description: VIP3
+    default: false
+
+  superjoin.vip.4:
+    description: VIP4
     default: false
 
   superjoin.user:
     description: 普通用户基础权限
     default: true
 
-# 版本兼容性说明
+  # 允许任意组名的权限节点
+  superjoin.*:
+    description: 所有自定义组的权限
+    default: false
+
 prefix: SJ
-load: POSTWORLD  # 确保在AuthMe之后加载
-website: https://example.com
+load: POSTWORLD
 database: false
